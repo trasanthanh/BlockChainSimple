@@ -6,13 +6,19 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "body-parser": "^1.19.0",
     "cookie-parser": "~1.4.4",
     "crypto-js": "^4.0.0",
     "debug": "~2.6.9",
+    "dotenv": "^8.2.0",
+    "elliptic": "^6.5.2",
     "express": "~4.16.1",
     "hbs": "~4.0.4",
     "http-errors": "~1.6.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.16",
     "morgan": "~1.9.1",
+    "secure-random": "^1.1.2",
     "socket.io": "^2.3.0",
     "start": "^5.1.0"
   }

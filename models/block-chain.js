@@ -3,19 +3,22 @@ var Transaction = require('./transaction');
 class Blockchain{
     constructor() {
         this.chain = [this.createFirstBlock()];
-        this.difficulty = 5;
+        this.difficulty = 1;
         this.pendingTransactions = [];
-        this.miningReward = 100;
+        this.miningReward = 1;
     }
     createFirstBlock() {
-        return new Block("30/05/2020", "root", "0");
+        let totalCoin = 99999999;
+
+        return new Block(Date.parse('2020-05-20'),[new Transaction(null, 'root',totalCoin )], "0");
     }
 
     getLatestBlock() {
         return this.chain[this.chain.length - 1];
     }
+    
     minePendingTransactions(miningRewardAddress) {
-        let block = new Block(Date.now(), this.pendingTransactions, this.getLatestBlock().hash);
+        const block = new Block(Date.now(), this.pendingTransactions, this.getLatestBlock().hash);
         block.mineBlock(this.difficulty);
         this.chain.push(block);
         this.pendingTransactions = [
@@ -45,7 +48,7 @@ class Blockchain{
         let balance = 0;
         for(const block of this.chain){
             for(const trans of block.transactions){
-                if(trans.fromAddress === address){
+                if (trans.fromAddress === address){
                     balance -= trans.amount;
                 }
                 if(trans.toAddress === address){
@@ -54,6 +57,14 @@ class Blockchain{
             }
         }
         return balance;
+    }
+    joinChain(address){
+        if(this.getBalanceOfAddress(address) == 0){
+            return this.pendingTransactions = [
+                new Transaction(null, address, this.miningReward)
+            ];
+        }
+        return null;
     }
 }
 module.exports = Blockchain;
