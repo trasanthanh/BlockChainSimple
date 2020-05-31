@@ -51,10 +51,10 @@ class Blockchain{
         for(const block of this.chain){
             for(const trans of block.transactions){
                 if (trans.fromAddress === address){
-                    balance -= trans.amount;
+                    balance -= parseInt(trans.amount);
                 }
                 if(trans.toAddress === address){
-                    balance += trans.amount;
+                    balance += parseInt(trans.amount);
                 }
             }
         }
