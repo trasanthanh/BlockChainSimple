@@ -1,4 +1,4 @@
-const secureRandom = require('secure-random');
+
 const EC = require('elliptic').ec;
 const ecdsa = new EC('secp256k1');
 class Wallet {
@@ -9,9 +9,9 @@ class Wallet {
         }
     }
     genenatorNewWallet(){
-        this.wallet.privateKey = secureRandom.randomBuffer(32).toString('hex');
-        let  keys = ecdsa.keyFromPrivate(this.wallet.privateKey);  
-        this.wallet.publicKey = keys.getPublic('hex'); 
+        let key = ec.genKeyPair();
+        this.wallet.privateKey = key.getPublic('hex');
+        this.wallet.publicKey = key.getPublic('hex');
         return this.wallet;
     }
     isValidPublicKey (publicKey){

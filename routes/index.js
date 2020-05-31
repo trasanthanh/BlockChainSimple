@@ -8,7 +8,9 @@ var transaction = require("../models/transaction");
 
 /* GET home page. */
 router.get("/", middleware.isLogged, function (req, res, next) {
- 	res.render("index", { title: "Express" });
+	let balance = blockChain.getBalanceOfAddress(req.user.publicKey),
+		transactions = blockChain.getTransactionOfAddress(req.user.publicKey);
+ 	res.render("index", {isLogin: 1, balance : balance, address: req.user.publicKey, privateKey:req.user.privateKey, transactions : transactions });
 });
 
 router.get("/login", function (req, res, next) {
@@ -29,7 +31,7 @@ router.post("/login", function (req, res, next) {
 		},
 		{ maxAge: 2147483647, httpOnly: true }
 		);
-		return res.redirect("/login");
+		return res.redirect("/");
 	}
 	res.redirect("/login?error=1");
 });
@@ -42,6 +44,7 @@ router.get("/logout", function (req, res, next) {
 router.post("/create-wallet", (req, res) => {
 	var newWallet = wallet.genenatorNewWallet();
 		blockChain.joinChain(newWallet.publicKey);
+		blockChain.minePendingTransactions(newWallet.publicKey);
 	res.cookie(
 		"userInfo",
 		{
