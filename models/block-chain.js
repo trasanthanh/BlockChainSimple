@@ -1,3 +1,5 @@
+const EC = require('elliptic').ec;
+const ecdsa = new EC('secp256k1');
 var Block = require('./block');
 var Transaction = require('./transaction');
 class Blockchain{
@@ -8,9 +10,9 @@ class Blockchain{
         this.miningReward = 1;
     }
     createFirstBlock() {
-        let totalCoin = 99999999;
-
-        return new Block(Date.parse('2020-05-20'),[new Transaction(null, 'root',totalCoin )], "0");
+        const privateKey = '324c9e7c840765e62042b6a2ad2935b7a2e0c256aa31dc26e8d49a3317bec822';
+        const totalBChain = 9000000;
+        return new Block(Date.parse('2020-05-20'),[new Transaction(null, ecdsa.keyFromPrivate(privateKey).getPublic('hex'), totalBChain )], "");
     }
 
     getLatestBlock() {
@@ -28,7 +30,25 @@ class Blockchain{
         ];
     }
     createTransaction(transaction) {
-        this.pendingTransactions.push(transaction);
+        if (!transaction.toAddress) {
+            return "Thiếu địa chỉ người nhận";
+          }
+      
+          // Verify the transactiion
+          if (!transaction.isValid()) {
+           return "Transaction không hợp lệ";
+          }
+          
+          if (transaction.amount <= 0 || isNaN(parseInt(transaction.amount)) ) {
+           return "Số tiền không hợp lệ"
+          }
+          
+          // Making sure that the amount sent is not greater than existing balance
+          if (this.getBalanceOfAddress(transaction.fromAddress) < parseInt(transaction.amount)) {
+            return "Tài khoản không đủ tiền"
+          }
+          this.pendingTransactions.push(transaction);
+          return 1;
     }
 
     isChainValid() {
@@ -70,14 +90,6 @@ class Blockchain{
             }
         }
         return transactions.length > 0 ? transactions : null;
-    }
-    joinChain(address){
-        if(this.getBalanceOfAddress(address) == 0){
-            return this.pendingTransactions = [
-                new Transaction(null, address, this.miningReward)
-            ];
-        }
-        return null;
     }
     getListPendingTransactions(){
         return  this.pendingTransactions;

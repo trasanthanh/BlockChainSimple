@@ -9,11 +9,9 @@ var body            = require('body-parser');
 var app             = express();
 var server          = require("http").Server(app);
 var io              = require("socket.io")(server);
-var mongoose        = require('mongoose');
-var middleware       = require('./helpers/middleware');
-var blockChain = new (require("./models/block-chain"))();
+var middleware      = require('./helpers/middleware');
+var blockChain 		= new (require("./models/block-chain"))();
 var indexRouter     = require("./routes/index");
-var usersRouter     = require("./routes/users");
 global.listNode = [];
 global.mining = require('./helpers/virtual/nodeMining');
 io.on("connection", function (socket) {
@@ -32,7 +30,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(middleware.parseUser);
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

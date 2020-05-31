@@ -4,7 +4,7 @@
     <form id="from-register" action="/login" method="post">
         <label style="margin-right: 20px">Khóa truy cập (private key):</label> 
         <br />
-        <input name="privateKey" style="width: 425px; height: 35px" /> 
+        <input name="privateKey" style="width: 425px; height: 35px" autocomplete="off" /> 
         {{#if error}}
             <span id ="notice" style="margin-left: 20px; color:red; font-weight:bold"> Private key không hợp lệ vui lòng kiểm tra lại !</span>
         {{/if}}

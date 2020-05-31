@@ -15,9 +15,7 @@
     "express": "~4.16.1",
     "hbs": "~4.0.4",
     "http-errors": "~1.6.3",
-    "jsonwebtoken": "^8.5.1",
     "moment": "^2.26.0",
-    "mongoose": "^5.9.16",
     "morgan": "~1.9.1",
     "socket.io": "^2.3.0",
     "start": "^5.1.0"

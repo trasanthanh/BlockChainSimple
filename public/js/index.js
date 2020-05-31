@@ -5,13 +5,11 @@ socket.on('storeSocketId', (socketId) =>{
     }
 });
 socket.on('registerSuccess', (address) =>{
-    console.log(address);
     $('#register').css('display','none');
     $('#success').css('display','block');
 });
 socket.on('block', (blocks) =>{
     let listBlocks = JSON.parse(blocks);
-    console.log(blocks)
         let html = `
         <tr>
         <td style="overflow-wrap: break-word;max-width: 315px; text-align:left ">
@@ -43,6 +41,9 @@ socket.on('transaction', (transactions) =>{
        
         $('#list-transaction').append(html);
         if(e.fromAddress == $('#address').val() || e.toAddress == $('#address').val() ){
+            let total = e.toAddress == $('#address').val() ? parseInt($('#total').text()) + parseInt(e.amount) : parseInt($('#total').text()) - parseInt(e.amount) ;
+            console.log(total)
+            $('#total').text(total);
             $('#transaction').append(html);
         }
     })
