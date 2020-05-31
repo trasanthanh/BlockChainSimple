@@ -1,4 +1,4 @@
-# BlockChainSimple - Bài tập block chain cá nhân - Môn các công nghệ mới trong phát triển phần mềm 2020
+# Bài tập block chain cá nhân môn các công nghệ mới trong phát triển phần mềm 2020 - 1512589
 Các chức năng hiện có :
  + Đăng ký ví 
  + Đăng nhập ví
