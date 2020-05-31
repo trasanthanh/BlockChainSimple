@@ -14,16 +14,10 @@ var middleware       = require('./helpers/middleware');
 var blockChain = new (require("./models/block-chain"))();
 var indexRouter     = require("./routes/index");
 var usersRouter     = require("./routes/users");
+global.listNode = [];
+global.mining = require('./helpers/virtual/nodeMining');
 io.on("connection", function (socket) {
-  console.log('new connection', socket.id);
-  socket.emit('storeSocketId',socket.id);
-});
-mongoose.connect(`mongodb://${process.env.HOST}/${process.env.DB}`, { useNewUrlParser : true, useFindAndModify : false, useUnifiedTopology : true }, ( err ) => {
-  if(err){
-    console.log(err);
-  } else {
-    console.log('mongoose connected');
-  }
+	socket.emit('storeSocketId',socket.id);
 });
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");

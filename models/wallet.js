@@ -9,8 +9,8 @@ class Wallet {
         }
     }
     genenatorNewWallet(){
-        let key = ec.genKeyPair();
-        this.wallet.privateKey = key.getPublic('hex');
+        let key = ecdsa.genKeyPair();
+        this.wallet.privateKey = key.getPrivate('hex');
         this.wallet.publicKey = key.getPublic('hex');
         return this.wallet;
     }

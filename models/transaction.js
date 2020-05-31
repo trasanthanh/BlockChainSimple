@@ -8,10 +8,7 @@ class Transaction{
     }
     signTransaction(signingKey) {
         if (signingKey.getPublic('hex') !== this.fromAddress) {
-          return {
-              status: -1,
-              msg: 'You cannot sign transactions for other wallets!'
-          }
+          return -1
         }
         const hashTx = this.calculateHash();
         const sig = signingKey.sign(hashTx);
@@ -28,7 +25,7 @@ class Transaction{
         return publicKey.verify(this.calculateHash(), this.signature);
     }
     calculateHash(){
-        return SHA256(this.fromAddress + this.toAddress + this.amount + this.timestamp);
+        return SHA256(this.fromAddress + this.toAddress + this.amount + this.timestamp).toString();
     }
 }
 module.exports = Transaction;

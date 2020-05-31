@@ -3,6 +3,7 @@ var middleware = {
   parseUser:(req, res, next) =>{
     if(req.cookies && req.cookies.userInfo){
       req.user =req.cookies.userInfo;
+      io.to(req.user.socketId).emit("registerSuccess", req.user.publicKey);
       return next();
     }
     req.user=undefined;

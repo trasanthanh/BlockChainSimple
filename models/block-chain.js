@@ -17,10 +17,12 @@ class Blockchain{
         return this.chain[this.chain.length - 1];
     }
     
-    minePendingTransactions(miningRewardAddress) {
+    miningPendingTransactions(miningRewardAddress) {
         const block = new Block(Date.now(), this.pendingTransactions, this.getLatestBlock().hash);
         block.mineBlock(this.difficulty);
         this.chain.push(block);
+        io.sockets.emit('block', JSON.stringify(block));
+        io.sockets.emit('transaction', JSON.stringify(this.pendingTransactions));
         this.pendingTransactions = [
             new Transaction(null, miningRewardAddress, this.miningReward)
         ];
@@ -62,12 +64,12 @@ class Blockchain{
         let transactions = [];
         for(const block of this.chain){
             for(const trans of block.transactions){
-                if (trans.fromAddress === address || trans.toAddress === address){
+                if (trans.fromAddress == address || trans.toAddress == address){
                    transactions.push(trans);
                 }
             }
         }
-        return transactions;
+        return transactions.length > 0 ? transactions : null;
     }
     joinChain(address){
         if(this.getBalanceOfAddress(address) == 0){
@@ -76,6 +78,9 @@ class Blockchain{
             ];
         }
         return null;
+    }
+    getListPendingTransactions(){
+        return  this.pendingTransactions;
     }
 }
 module.exports = Blockchain;
