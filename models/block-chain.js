@@ -21,6 +21,11 @@ class Blockchain{
     
     miningPendingTransactions(miningRewardAddress) {
         const block = new Block(Date.now(), this.pendingTransactions, this.getLatestBlock().hash);
+        if(this.chain.length % 5 == 0 && this.chain[this.chain.length -1].timestamp - this.chain[this.chain.length -5].timestamp >= 120 ){ // tăng độ khó
+            this.difficulty ++;
+        } else if( this.difficulty >1 ){
+            this.difficulty --;
+        }
         block.mineBlock(this.difficulty);
         this.chain.push(block);
         io.sockets.emit('block', JSON.stringify(block));
