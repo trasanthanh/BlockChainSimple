@@ -15,7 +15,7 @@
     "express": "~4.16.1",
     "hbs": "~4.0.4",
     "http-errors": "~1.6.3",
-    "moment": "^2.26.0",
+    "moment": "^2.29.4",
     "morgan": "~1.9.1",
     "socket.io": "^2.3.0",
     "start": "^5.1.0"
